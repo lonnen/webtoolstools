@@ -84,7 +84,7 @@ def gitbugs(from_rev, to_rev):
     return git_bugs
 
 if __name__ == '__main__':
-    usage = "%prog [options] args_for_git_log"
+    usage = "%prog [options]"
     parser = optparse.OptionParser("%s\n%s" % (usage.strip(), __doc__.strip()))
     parser.add_option('-t', '--target-milestone', dest='target_milestone',
                       type='string', help='target_milestone to check on bz')
