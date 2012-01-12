@@ -32,8 +32,14 @@ def compare(git_bug_nums, target_milestone):
         print 'ERROR %s is in git but not in target milestone %s' % (num, target_milestone)
 
 def main(target_milestone, old_rev, new_rev):
-    git_bugs = gitbugs(old_rev, new_rev) - gitbugs(new_rev, old_rev)
-    compare(git_bugs, target_milestone)
+    in_new = gitbugs(old_rev, new_rev)
+    in_old = gitbugs(new_rev, old_rev)
+    only_new = in_new - in_old
+
+    for num in (in_old - in_new):
+        print 'WARNING %s is only in old rev, and may not be in the new rev' % (num)
+
+    compare(only_new, target_milestone)
 
 def gitbugs(from_rev, to_rev):
     git_log_args = ['git', 'log', '--oneline', '%s..%s' % (from_rev, to_rev)]
@@ -75,8 +81,4 @@ if __name__ == '__main__':
             parser.print_help()
             sys.exit(-1)
 
-    target_milestone = options.target_milestone
-    old_rev = options.old_rev
-    new_rev = options.new_rev
-
-    main(target_milestone, old_rev, new_rev)
+    main(options.target_milestone, options.old_rev, options.new_rev)
