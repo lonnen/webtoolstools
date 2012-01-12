@@ -48,8 +48,9 @@ def gitbugs(from_rev, to_rev):
     for line in process.stdout:
         commit_msg = line.strip()
         bug_msg = bug_pattern.findall(commit_msg)
-        if bug_msg is None:
-            print 'ERROR missing bug message in git log: %s' % commit_msg
+        if bug_msg == []:
+            if 'Merge' not in commit_msg:
+                print 'WARNING missing bug message in git log: %s' % commit_msg.split(' ')[0]
         else:
             git_bugs = git_bugs.union(
               set(x.lower().split('bug')[1].strip() for x in bug_msg))
