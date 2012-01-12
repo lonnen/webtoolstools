@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# remove derived files following every commit
+# clean up derived files after every commit
 # which helps prevent problems when switching branches
 find . | grep '\.pyc$' | xargs rm
 find . | grep --color=never '\~$' | grep -v 'backup~' | xargs rm -f
