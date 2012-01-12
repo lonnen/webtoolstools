@@ -4,6 +4,26 @@ give me a pair of git revisions and a bugzilla target milestone, and I'll show y
 the difference.
 
 Example: ./gitzilla.py --target-milestone=2.4 --old-rev=v2.3.5.1 --new-rev=master
+
+Outputs:
+'WARNING missing bug message in git log: e9959af'
+The sha of a non-merge commit changeset without a bug number.
+
+'OK 701255 in git is in target milestone 2.4'
+A commit message with that bug number is in the changeset and that bug is targeted at the supplied milestone
+
+'WARNING 701255 is in target milestone 2.4 but not in git'
+That bug number is listed in the milestone but is not in the change set. It may not have landed,
+but if the bug is marked resolved fixed check to see if the bug number was left out of the commit message
+or if it was landed on the wrong branch.
+
+'WARNING 701255 is only in old rev, and may not be in the new rev'
+A commit message with that bug number is in the old-rev, but not the new-rev. If the revs are different
+branches the change probably only landed on the old-rev and not the new rev.
+
+'ERROR 701255 is in git but not in target milestone 2.4'
+A commit message with that bug number is in the changeset but the bug is not targeted at the supplied milestone.
+Check the bug to see if it's mistargeted. Also check that the commit wasn't accidentally reapplied.
 """
 
 import re
